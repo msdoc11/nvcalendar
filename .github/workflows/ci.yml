@@ -19,16 +19,11 @@ jobs:
           node-version: ${{ matrix.node }}
           cache: npm
 
-      - name: Install
-        run: |
-          echo "node $(node --version) / npm $(npm --version)"
-          if ! npm ci --no-audit --no-fund > install.log 2>&1; then
-            message=$(grep -iE "npm (error|warn ERESOLVE)" install.log | tail -n 20 | sed 's/%/%25/g' | awk '{ printf "%s%%0A", $0 }')
-            [ -z "$message" ] && message=$(tail -n 20 install.log | sed 's/%/%25/g' | awk '{ printf "%s%%0A", $0 }')
-            echo "::error title=npm ci failed on Node ${{ matrix.node }} with npm $(npm --version)::$message"
-            exit 1
-          fi
+      # Node 20 and 22 ship npm 10, which builds a different dependency tree
+      # from the one in the lockfile and rejects it as out of sync.
+      - run: npm install -g npm@11
 
+      - run: npm ci --no-audit --no-fund
       - run: npm run lint
       - run: npm run test
       - run: npm run build
