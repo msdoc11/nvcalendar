@@ -66,14 +66,32 @@ Version bumps follow semver: `npm version patch|minor|major`, then
 ## 4. List on nuxt.com/modules
 
 The catalogue is a GitHub repository — listing means opening a pull request.
+The package has to be on npm first, because the checks read it from there.
 
-1. The module must already be on npm and its repository must be public.
-2. Fork <https://github.com/nuxt/modules>.
-3. Copy [`nuxt-modules-submission.yml`](./nuxt-modules-submission.yml) to
-   `modules/nvcalendar.yml` in your fork and fill in the maintainer fields.
-4. Add an icon: `icons/nvcalendar.svg` (square, works on light and dark).
-5. Open the pull request. CI validates the YAML against npm and GitHub, so the
-   package must be published *before* you submit.
+```bash
+git clone https://github.com/<your-fork>/modules.git nuxt-modules
+cd nuxt-modules
+git checkout -b add-nvcalendar
+
+cp ../nvcalendar/nuxt-modules-submission.yml modules/nvcalendar.yml
+cp ../nvcalendar/nvcalendar.svg icons/nvcalendar.svg
+
+npm install
+npm run test          # validates the YAML against the schema
+git add modules/nvcalendar.yml icons/nvcalendar.svg
+git commit -m "feat: add nvcalendar"
+git push origin add-nvcalendar
+```
+
+Then open the pull request against `nuxt/modules`.
+
+Two fields deserve a second look before submitting:
+
+- `website` currently points at the repository. Change it to the documentation
+  domain once that is live; the catalogue links the card to it.
+- `category` is `UI`, where people browse for calendar components. There is also
+  a `Date` category in the schema, but nothing uses it yet, so it does not show
+  up as a filter on the site.
 
 Once merged, the module appears on <https://nuxt.com/modules> and
 `npx nuxi module add nvcalendar` starts working.
