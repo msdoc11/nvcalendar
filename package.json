@@ -1,0 +1,102 @@
+{
+  "name": "nvcalendar",
+  "version": "0.1.0",
+  "description": "Calendar, date picker and attribute-driven date visualisation for Nuxt and Vue 3. Zero dependencies, Intl-powered, fully typed.",
+  "license": "MIT",
+  "author": "Nik <email@qsyro.com>",
+  "type": "module",
+  "keywords": [
+    "nuxt",
+    "nuxt-module",
+    "vue",
+    "calendar",
+    "datepicker",
+    "date-picker",
+    "date-range",
+    "timepicker",
+    "vue3",
+    "intl"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/msdoc11/nvcalendar.git"
+  },
+  "homepage": "https://github.com/msdoc11/nvcalendar#readme",
+  "bugs": {
+    "url": "https://github.com/msdoc11/nvcalendar/issues"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/types.d.mts",
+      "import": "./dist/module.mjs"
+    },
+    "./styles": "./dist/runtime/styles/nvcalendar.css",
+    "./vue": {
+      "types": "./dist/runtime/vue.d.ts",
+      "import": "./dist/runtime/vue.js"
+    },
+    "./types": {
+      "types": "./dist/runtime/types.d.ts",
+      "import": "./dist/runtime/types.js"
+    },
+    "./runtime/*": "./dist/runtime/*",
+    "./package.json": "./package.json"
+  },
+  "main": "./dist/module.mjs",
+  "typesVersions": {
+    "*": {
+      "*": [
+        "./dist/*",
+        "./dist/index.d.mts"
+      ]
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "sideEffects": [
+    "*.css"
+  ],
+  "scripts": {
+    "prepack": "nuxt-module-build build",
+    "dev": "nuxi dev playground",
+    "dev:prepare": "nuxt-module-build build --stub && nuxt-module-build prepare && nuxi prepare playground",
+    "docs:dev": "nuxi dev playground",
+    "docs:build": "nuxi build playground",
+    "docs:generate": "nuxi generate playground",
+    "docs:preview": "nuxi preview playground",
+    "build": "nuxt-module-build build",
+    "lint": "eslint .",
+    "test": "vitest run",
+    "test:watch": "vitest watch",
+    "typecheck": "vue-tsc --noEmit",
+    "release": "npm run lint && npm run test && npm run prepack && npm publish --access public"
+  },
+  "dependencies": {
+    "@nuxt/kit": "^3.14.0 || ^4.0.0"
+  },
+  "devDependencies": {
+    "@nuxt/eslint-config": "^1.16.0",
+    "@nuxt/module-builder": "^1.0.1",
+    "@nuxt/schema": "^4.0.0",
+    "@tailwindcss/vite": "^4.3.3",
+    "@types/node": "^22.10.0",
+    "@types/prismjs": "^1.26.6",
+    "@vitejs/plugin-vue": "^6.0.8",
+    "@vue/test-utils": "^2.4.11",
+    "eslint": "^10.8.0",
+    "happy-dom": "^20.11.1",
+    "nuxt": "^4.0.0",
+    "prismjs": "^1.30.0",
+    "tailwindcss": "^4.3.3",
+    "typescript": "^5.7.2",
+    "vitest": "^2.1.8",
+    "vue-tsc": "^2.1.10"
+  },
+  "peerDependencies": {
+    "vue": "^3.4.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

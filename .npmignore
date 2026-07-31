@@ -1,0 +1,7 @@
+playground
+test
+src
+.nuxt
+node_modules
+coverage
+*.log

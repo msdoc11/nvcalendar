@@ -1,0 +1,11 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Documentation
+    url: https://github.com/msdoc11/nvcalendar#readme
+    about: Props, events, slots, attributes and theming.
+  - name: Question or idea
+    url: https://github.com/msdoc11/nvcalendar/discussions
+    about: Ask about usage or float an idea before opening an issue.
+  - name: Security report
+    url: https://github.com/msdoc11/nvcalendar/security/advisories/new
+    about: Report a vulnerability privately instead of in a public issue.
