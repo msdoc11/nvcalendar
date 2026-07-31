@@ -1,12 +1,12 @@
 # Publishing checklist
 
-## 1. Prepare the package
+## 1. The package metadata
 
-Before the first publish, replace the placeholders in `package.json`:
+Already set in `package.json`:
 
 ```jsonc
 {
-  "name": "nvcalendar",              // must be free on npm — check first
+  "name": "nvcalendar",
   "version": "0.1.0",
   "author": "Nik <email@qsyro.com>",
   "repository": { "url": "git+https://github.com/msdoc11/nvcalendar.git" },
@@ -15,15 +15,14 @@ Before the first publish, replace the placeholders in `package.json`:
 }
 ```
 
-Check name availability:
+Set `homepage` to the documentation domain once it is live.
+
+The name was free at the time of writing. Confirm it still is:
 
 ```bash
 npm view nvcalendar
 # "npm error 404" means the name is free
 ```
-
-If it is taken, use a scope: `@your-org/nvcalendar`. Scoped packages need
-`npm publish --access public` (already in the `release` script).
 
 ## 2. Verify
 

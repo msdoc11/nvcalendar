@@ -1,5 +1,6 @@
 # Copy to `modules/nvcalendar.yml` in a fork of https://github.com/nuxt/modules
-# and open a pull request. Fill in every <placeholder> first.
+# and open a pull request. Set `website` to the documentation domain once it is
+# live. The package has to be published to npm before the pull request is filed.
 name: nvcalendar
 description: Calendar, date picker and attribute-driven date visualisation for Nuxt. Zero dependencies, Intl-powered, fully typed.
 repo: msdoc11/nvcalendar
