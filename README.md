@@ -489,32 +489,10 @@ deterministic reference date for snapshot tests.
 
 ```bash
 npm install
-npm run dev          # documentation site on http://localhost:3000
 npm run test         # unit tests
 npm run lint
 npm run build        # build the module into dist/
 ```
-
-The `playground/` directory is the documentation site: a landing page, guides,
-a generated API reference and live demos, in English and Russian. It is built
-with Nuxt and Tailwind; the module itself has no dependency on either.
-
-```bash
-npm run docs:dev       # develop the site
-npm run docs:build     # server build, output in playground/.output
-npm run docs:generate  # static build, output in playground/.output/public
-npm run docs:preview   # preview the production build
-```
-
-Deploy the server build to any Node host, or point a static host at the
-generated output. The language and theme are stored in cookies and resolved on
-the server, so a server deployment renders the visitor's language on the first
-request. A fully static build serves English until hydration.
-
-The API reference is generated from `src/runtime/props.ts`: prop names, types,
-defaults and the JSDoc above each prop. Adding a documented prop is enough to
-make it appear. Demo snippets are extracted from the page sources at runtime,
-so no example in the site can drift from the code that renders it.
 
 ---
 
