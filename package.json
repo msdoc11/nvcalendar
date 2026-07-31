@@ -80,7 +80,7 @@
     "@nuxt/module-builder": "^1.0.1",
     "@nuxt/schema": "^4.0.0",
     "@tailwindcss/vite": "^4.3.3",
-    "@types/node": "^22.10.0",
+    "@types/node": "^26.1.2",
     "@types/prismjs": "^1.26.6",
     "@vitejs/plugin-vue": "^6.0.8",
     "@vue/test-utils": "^2.4.11",
@@ -90,8 +90,8 @@
     "prismjs": "^1.30.0",
     "tailwindcss": "^4.3.3",
     "typescript": "^5.7.2",
-    "vitest": "^2.1.8",
-    "vue-tsc": "^2.1.10"
+    "vitest": "^4.1.10",
+    "vue-tsc": "^2.2.12"
   },
   "peerDependencies": {
     "vue": "^3.4.0"
