@@ -18,17 +18,7 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
           cache: npm
-
-      - name: Install
-        run: |
-          if ! npm install --no-audit --no-fund > install.log 2>&1; then
-            message=$(grep -iE "npm (error|ERR)" install.log | tail -n 25 | sed 's/%/%25/g' | awk '{ printf "%s%%0A", $0 }')
-            [ -z "$message" ] && message=$(tail -n 25 install.log | sed 's/%/%25/g' | awk '{ printf "%s%%0A", $0 }')
-            echo "::error title=npm install failed on Node ${{ matrix.node }}::$message"
-            exit 1
-          fi
-          tail -n 3 install.log
-
+      - run: npm ci --no-audit --no-fund
       - run: npm run lint
       - run: npm run test
       - run: npm run build
