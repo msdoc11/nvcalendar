@@ -59,7 +59,12 @@
   ],
   "scripts": {
     "prepack": "nuxt-module-build build",
-    "dev:prepare": "nuxt-module-build build --stub && nuxt-module-build prepare",
+    "dev": "nuxi dev playground",
+    "dev:prepare": "nuxt-module-build build --stub && nuxt-module-build prepare && nuxi prepare playground",
+    "docs:dev": "nuxi dev playground",
+    "docs:build": "nuxi build playground",
+    "docs:generate": "nuxi generate playground",
+    "docs:preview": "nuxi preview playground",
     "build": "nuxt-module-build build",
     "lint": "eslint .",
     "test": "vitest run",
