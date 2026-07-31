@@ -21,21 +21,13 @@ jobs:
 
       - name: Install
         run: |
-          npm install --no-audit --no-fund 2>&1 | tee install.log
-          status=${PIPESTATUS[0]}
-          if [ "$status" -ne 0 ]; then
-            {
-              echo "### npm install failed on Node ${{ matrix.node }}"
-              echo '```'
-              tail -n 120 install.log
-              echo '```'
-              echo '### npm debug log'
-              echo '```'
-              tail -n 120 ~/.npm/_logs/*.log 2>/dev/null || echo "no debug log"
-              echo '```'
-            } >> "$GITHUB_STEP_SUMMARY"
+          if ! npm install --no-audit --no-fund > install.log 2>&1; then
+            message=$(grep -iE "npm (error|ERR)" install.log | tail -n 25 | sed 's/%/%25/g' | awk '{ printf "%s%%0A", $0 }')
+            [ -z "$message" ] && message=$(tail -n 25 install.log | sed 's/%/%25/g' | awk '{ printf "%s%%0A", $0 }')
+            echo "::error title=npm install failed on Node ${{ matrix.node }}::$message"
+            exit 1
           fi
-          exit "$status"
+          tail -n 3 install.log
 
       - run: npm run lint
       - run: npm run test
