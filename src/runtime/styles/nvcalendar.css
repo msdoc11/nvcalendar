@@ -26,6 +26,9 @@
   --nv-day-content-size: 30px;
   --nv-weeknumber-width: 28px;
   --nv-duration: 180ms;
+  --nv-time-row: 32px;
+  --nv-time-rows: 7;
+  --nv-time-column-width: 56px;
 }
 
 .nv-calendar.nv-dark,
@@ -726,13 +729,17 @@
   border-top: 1px solid var(--nv-border);
 }
 
+/* A time-only picker has no calendar above the panel, so no divider either. */
+.nv-date-picker > .nv-time-panel:first-child {
+  border-top: 0;
+}
+
 .nv-time-picker {
   display: flex;
   flex: 1;
   flex-direction: column;
   gap: 4px;
   align-items: center;
-  min-width: 130px;
 }
 
 .nv-time-picker--disabled {
@@ -752,47 +759,76 @@
   height: 14px;
 }
 
-.nv-time-fields {
+.nv-time-columns {
   display: flex;
+  gap: 4px;
+  align-items: flex-start;
+}
+
+.nv-time-column {
+  position: relative;
+  display: flex;
+  flex-direction: column;
   gap: 2px;
-  align-items: center;
+  width: var(--nv-time-column-width);
+  height: calc(var(--nv-time-row) * var(--nv-time-rows) + (var(--nv-time-rows) - 1) * 2px + 8px);
+  padding: 4px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: none;
+  border-radius: var(--nv-radius-sm);
 }
 
-.nv-time-separator {
-  color: var(--nv-fg-muted);
+.nv-time-column::-webkit-scrollbar {
+  display: none;
 }
 
-.nv-select {
-  padding: 4px 6px;
+.nv-time-option {
+  flex: none;
+  height: var(--nv-time-row);
+  padding: 0 6px;
   font-family: inherit;
-  font-size: 0.9em;
+  font-size: 0.95em;
   font-variant-numeric: tabular-nums;
+  line-height: var(--nv-time-row);
   color: var(--nv-fg);
-  appearance: none;
+  text-align: center;
   cursor: pointer;
-  background: color-mix(in oklab, var(--nv-fg) 8%, var(--nv-bg));
-  border: 1px solid transparent;
+  background: none;
+  border: 0;
   border-radius: var(--nv-radius-sm);
   outline: none;
-  transition: border-color var(--nv-duration) ease;
+  transition:
+    background-color var(--nv-duration) ease,
+    color var(--nv-duration) ease;
 }
 
-.nv-select:hover:not(:disabled) {
-  background: color-mix(in oklab, var(--nv-fg) 14%, var(--nv-bg));
+.nv-time-option:hover:not(:disabled) {
+  background: var(--nv-hover);
 }
 
-.nv-select:focus-visible {
-  border-color: var(--nv-accent);
+.nv-time-option:focus-visible {
+  box-shadow: inset 0 0 0 2px var(--nv-accent-text);
 }
 
-.nv-select:disabled {
+.nv-time-option--active,
+.nv-time-option--active:hover:not(:disabled) {
+  font-weight: 600;
+  color: var(--nv-accent-contrast);
+  background: var(--nv-accent);
+}
+
+.nv-time-option:disabled {
   cursor: default;
-  opacity: 0.6;
+  opacity: 0.35;
 }
 
-.nv-select option {
-  color: var(--nv-fg);
-  background: var(--nv-bg);
+.nv-time-picker--disabled .nv-time-option {
+  cursor: default;
+}
+
+.nv-time-picker--disabled .nv-time-option:disabled {
+  opacity: 1;
 }
 
 .nv-slide-h-next-enter-active,

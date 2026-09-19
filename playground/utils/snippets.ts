@@ -78,6 +78,13 @@ export const PICKER_TIME = `<NvDatePicker
   :rules="{ hours: { min: 9, max: 18 }, minutes: { interval: 15 } }"
 />`
 
+export const PICKER_TIME_INPUT = `<NvDatePicker v-model="time" mode="time" hide-time-header>
+  <template #default="{ inputValue, inputEvents, togglePopover }">
+    <input :value="inputValue" v-on="inputEvents">
+    <button type="button" @click="togglePopover">🕒</button>
+  </template>
+</NvDatePicker>`
+
 export const PICKER_INPUT = `<NvDatePicker v-model="date">
   <template #default="{ inputValue, inputEvents, togglePopover }">
     <label for="date">Date</label>

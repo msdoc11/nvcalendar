@@ -6,6 +6,7 @@ import {
   PICKER_MODES,
   PICKER_RANGE_INPUT,
   PICKER_TIME,
+  PICKER_TIME_INPUT,
 } from '../../utils/snippets'
 
 const { t, calendarLocale } = useI18n()
@@ -56,6 +57,7 @@ const attached = ref<Date | null>(day(12))
     </h2>
     <p>{{ t('docs.picker.timeText') }}</p>
     <CodeBlock :code="PICKER_TIME" />
+    <CodeBlock :code="PICKER_TIME_INPUT" />
 
     <h2 id="input">
       {{ t('docs.picker.inputTitle') }}

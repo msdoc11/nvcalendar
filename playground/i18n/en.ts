@@ -139,7 +139,7 @@ export default {
       modesText: 'The selection prop decides the shape of the model value.',
       timeTitle: 'Time',
       timeText:
-        'mode="dateTime" adds a clock below the calendar, mode="time" hides the calendar. The rules prop restricts which hours, minutes and seconds can be picked.',
+        'mode="dateTime" adds a clock below the calendar, mode="time" hides the calendar. Hours, minutes and seconds are picked from scrolling columns, and the rules prop restricts which values appear. With the default slot, mode="time" gives a standalone time input.',
       inputTitle: 'Attaching to an input',
       inputText:
         'Fill the default slot and the picker turns into a popover anchored to whatever you put there. The slot receives the formatted value, the event handlers to bind, and the popover controls.',
@@ -318,6 +318,7 @@ export default {
         range: { title: 'Range with two inputs', hint: 'The value and the handlers are split into start and end.' },
         multiple: { title: 'Multiple dates in one input', hint: 'Comma-separated values are parsed back.' },
         dateTime: { title: 'Date and time input', hint: 'The mask includes the clock.' },
+        time: { title: 'Time input', hint: 'Only the clock: scrolling columns for hours and minutes, or type the time.' },
         placement: { title: 'Popover placement', hint: 'A side without enough room flips to the opposite one.' },
         mask: { title: 'Custom input mask', hint: 'Try typing 15 March 2027.' },
       },

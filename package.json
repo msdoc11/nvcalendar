@@ -1,6 +1,6 @@
 {
   "name": "nvcalendar",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Calendar, date picker and attribute-driven date visualisation for Nuxt and Vue 3. Zero dependencies, Intl-powered, fully typed.",
   "license": "MIT",
   "author": "Nik <email@qsyro.com>",
