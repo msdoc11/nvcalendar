@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.2.0
+
+- `<NvTimePicker>` picks hours, minutes, seconds and AM/PM from scrolling
+  columns instead of native `<select>` elements. The selected value is
+  highlighted, the columns scroll to it on open and follow the arrow keys.
+  Long columns wrap around like the native time input: after 59 comes 00.
+  Theme with `--nv-time-row`, `--nv-time-rows` and `--nv-time-column-width`.
+- A time-only popover (`mode="time"` with the default slot) no longer draws a
+  divider above the columns.
+
 ## 0.1.0
 
 Initial release.

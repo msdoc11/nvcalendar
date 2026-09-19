@@ -15,6 +15,7 @@ const withButton = ref<Date | null>(day(12))
 const rangeInputs = ref({ start: day(3), end: day(8) })
 const multiInput = ref<Date[]>([day(4), day(9)])
 const dateTimeInput = ref(new Date())
+const timeInput = ref(new Date())
 const placed = ref<Date | null>(day(12))
 const masked = ref<Date | null>(day(12))
 
@@ -188,6 +189,58 @@ const field = 'w-56 rounded-lg border border-line bg-surface px-3 py-2 text-sm t
         </NvDatePicker>
         <template #value>
           {{ dateTimeInput }}
+        </template>
+      </DemoCard>
+
+      <DemoCard
+        id="time"
+        v-bind="tc('demo.inputs.cards.time')"
+        tag="mode=&quot;time&quot;"
+      >
+        <NvDatePicker
+          v-model="timeInput"
+          v-bind="theme"
+          :locale="calendarLocale"
+          mode="time"
+          hide-time-header
+        >
+          <template #default="{ inputValue, inputEvents, togglePopover, isVisible }">
+            <div class="relative w-40">
+              <input
+                class="w-full rounded-lg border border-line bg-surface py-2 pl-3 pr-10 text-sm text-ink"
+                :value="inputValue"
+                v-on="inputEvents"
+              >
+              <button
+                type="button"
+                class="absolute inset-y-0 right-0 flex w-10 items-center justify-center rounded-r-lg transition-colors"
+                :class="isVisible ? 'text-brand-ink' : 'text-ink-muted hover:text-ink'"
+                :aria-label="t('demo.inputs.cards.time.title')"
+                :aria-expanded="isVisible"
+                @click="togglePopover"
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  class="size-4"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.75"
+                  stroke-linecap="round"
+                  aria-hidden="true"
+                >
+                  <circle
+                    cx="12"
+                    cy="12"
+                    r="9"
+                  />
+                  <path d="M12 7v5.2l3.2 2" />
+                </svg>
+              </button>
+            </div>
+          </template>
+        </NvDatePicker>
+        <template #value>
+          {{ timeInput }}
         </template>
       </DemoCard>
 

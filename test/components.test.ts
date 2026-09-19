@@ -429,13 +429,69 @@ describe('NvDatePicker — time', () => {
   it('shows a time picker in dateTime mode', () => {
     const wrapper = mountPicker({ mode: 'dateTime', modelValue: new Date(2026, 6, 15, 14, 30) })
     expect(wrapper.find('.nv-time-picker').exists()).toBe(true)
-    expect(wrapper.findAll('.nv-select').length).toBeGreaterThanOrEqual(2)
+    expect(wrapper.findAll('.nv-time-column').length).toBeGreaterThanOrEqual(2)
   })
 
   it('hides the calendar in time mode', () => {
     const wrapper = mountPicker({ mode: 'time', modelValue: new Date(2026, 6, 15, 14, 30) })
     expect(wrapper.find('.nv-calendar').exists()).toBe(false)
     expect(wrapper.find('.nv-time-picker').exists()).toBe(true)
+  })
+
+  it('marks the current hour and minute in the columns', () => {
+    const wrapper = mountPicker({ mode: 'time', is24hr: true, modelValue: new Date(2026, 6, 15, 14, 30) })
+    const active = wrapper.findAll('.nv-time-option--active[role="option"]')
+    expect(active.map(option => option.text())).toEqual(['14', '30'])
+    expect(active[0]!.attributes('aria-selected')).toBe('true')
+  })
+
+  it('draws long columns three times so they can wrap around, short ones once', () => {
+    const wrapper = mountPicker({
+      mode: 'time',
+      is24hr: true,
+      modelValue: new Date(2026, 6, 15, 14, 30),
+      rules: { minutes: { interval: 15 } },
+    })
+    const [hours, minutes] = wrapper.findAll('.nv-time-column')
+    expect(hours!.classes()).toContain('nv-time-column--loop')
+    expect(hours!.findAll('.nv-time-option')).toHaveLength(72)
+    expect(hours!.findAll('[role="option"]')).toHaveLength(24)
+    expect(hours!.findAll('[aria-hidden="true"]')).toHaveLength(48)
+    expect(minutes!.classes()).not.toContain('nv-time-column--loop')
+    expect(minutes!.findAll('.nv-time-option')).toHaveLength(4)
+  })
+
+  it('wraps from the last hour to the first with the arrow keys', async () => {
+    const wrapper = mountPicker({ mode: 'time', is24hr: true, modelValue: new Date(2026, 6, 15, 23, 30) })
+    await wrapper.find('.nv-time-option--active[role="option"]').trigger('keydown', { key: 'ArrowDown' })
+    const [value] = wrapper.emitted('update:modelValue')![0] as [Date]
+    expect(value.getHours()).toBe(0)
+  })
+
+  it('picks an hour from the column and keeps the rest of the time', async () => {
+    const wrapper = mountPicker({ mode: 'time', is24hr: true, modelValue: new Date(2026, 6, 15, 14, 30) })
+    const hours = wrapper.findAll('.nv-time-column')[0]!
+    await hours.findAll('.nv-time-option').find(option => option.text() === '09')!.trigger('click')
+    const [value] = wrapper.emitted('update:modelValue')![0] as [Date]
+    expect(value.getHours()).toBe(9)
+    expect(value.getMinutes()).toBe(30)
+    expect(value.getDate()).toBe(15)
+  })
+
+  it('moves through a column with the arrow keys', async () => {
+    const wrapper = mountPicker({ mode: 'time', is24hr: true, modelValue: new Date(2026, 6, 15, 14, 30) })
+    await wrapper.findAll('.nv-time-column')[0]!.find('.nv-time-option--active').trigger('keydown', { key: 'ArrowDown' })
+    const [value] = wrapper.emitted('update:modelValue')![0] as [Date]
+    expect(value.getHours()).toBe(15)
+  })
+
+  it('switches between AM and PM on a 12-hour clock', async () => {
+    const wrapper = mountPicker({ mode: 'time', is24hr: false, modelValue: new Date(2026, 6, 15, 9, 30) })
+    const columns = wrapper.findAll('.nv-time-column')
+    expect(columns[0]!.find('.nv-time-option--active').text()).toBe('09')
+    await columns[2]!.findAll('.nv-time-option').find(option => option.text() === 'PM')!.trigger('click')
+    const [value] = wrapper.emitted('update:modelValue')![0] as [Date]
+    expect(value.getHours()).toBe(21)
   })
 
   it('limits the minute options through rules', () => {
@@ -445,8 +501,25 @@ describe('NvDatePicker — time', () => {
       modelValue: new Date(2026, 6, 15, 14, 30),
       rules: { minutes: { interval: 15 } },
     })
-    const selects = wrapper.findAll('.nv-select')
-    expect(selects[1]!.findAll('option')).toHaveLength(4)
+    const columns = wrapper.findAll('.nv-time-column')
+    expect(columns[1]!.findAll('.nv-time-option')).toHaveLength(4)
+    expect(columns[1]!.findAll('.nv-time-option').map(option => option.text())).toEqual(['00', '15', '30', '45'])
+  })
+
+  it('opens a time-only popover from an input', async () => {
+    const wrapper = mount(NvDatePicker, {
+      props: { ...base, mode: 'time', is24hr: true, modelValue: new Date(2026, 6, 15, 14, 30) },
+      slots: { default: '<input class="probe">' },
+      attachTo: document.body,
+    })
+    ;(wrapper.vm as unknown as { showPopover: () => void }).showPopover()
+    await nextTick()
+    await nextTick()
+
+    const popover = document.querySelector('.nv-date-picker-popover')!
+    expect(popover.querySelector('.nv-calendar')).toBeNull()
+    expect(popover.querySelectorAll('.nv-time-column')).toHaveLength(2)
+    wrapper.unmount()
   })
 
   it('keeps the time when a new day is picked', async () => {

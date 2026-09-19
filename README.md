@@ -258,7 +258,20 @@ For a range, `inputValue` and `inputEvents` are split into `start` and `end`:
 ```
 
 `rules` accepts a fixed value, a list of values or a `{ min, max, interval }`
-object for `hours`, `minutes` and `seconds`.
+object for `hours`, `minutes` and `seconds`. Hours, minutes, seconds and
+AM/PM are picked from scrolling columns that also respond to the arrow keys.
+
+A standalone time input is `mode="time"` with the default slot; the popover
+then holds only the columns:
+
+```vue
+<NvDatePicker v-model="time" mode="time" hide-time-header>
+  <template #default="{ inputValue, inputEvents, togglePopover }">
+    <input :value="inputValue" v-on="inputEvents">
+    <button @click="togglePopover">🕒</button>
+  </template>
+</NvDatePicker>
+```
 
 ### Events
 
